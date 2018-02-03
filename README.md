@@ -27,3 +27,13 @@ If you found this task it means we are looking for you!
 - Structure! WE LOVE STRUCTURE!
 - Maybe You have an idea how it should interact with users? Do it! Its on you!
 - Have fun!
+
+## Start application
+- docker-compose up
+- open in browser: http://localhost:8000/
+
+## Code style check
+- docker-compose exec app vendor/bin/phpcs --standard=vendor/escapestudios/symfony2-coding-standard/Symfony/ruleset.xml src -v
+
+## Uni tests
+- docker-compose exec app vendor/bin/phpunit

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Testio - {% block title %}Welcome!{% endblock %}</title>
+        <style type="text/css">
+            body {
+                background-color: #262626;
+                color: #d3d3d3;
+                font-family: monospace;
+            }
+            a {
+                color: #a9a9a9;
+            }
+            a.external {
+                color: #62cc65;
+            }
+            table th {
+                width: 20%;
+            }
+            table .content {
+                width: 60%;
+            }
+            div.issue {
+                border: 1px solid;
+                padding: 15px 30px;
+                margin-bottom: 10px;
+                cursor: pointer;
+            }
+            div.issue > div {
+                margin: 15px;
+            }
+        </style>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th>
+                        <h1>Testio.</h1>
+                    </th>
+                    <th class="content"></th>
+                    <th>
+                        {% if is_granted('ROLE_USER') %}
+                        <button onclick="window.location = '{{ path('logout') }}'">Logout</button>
+                        {% endif %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td class="content">
+                        {% block body %}{% endblock %}
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

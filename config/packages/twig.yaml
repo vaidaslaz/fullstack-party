@@ -1,0 +1,6 @@
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    globals:
+        issues_per_page: '%app.results.per_page%'

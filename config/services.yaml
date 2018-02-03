@@ -1,0 +1,36 @@
+parameters:
+    app.results.per_page: 15
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{Tests,Kernel.php}'
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    Github\Client:
+        factory: 'App\Factory\GithubClientFactory:getClient'
+
+    Github\ResultPager:
+        arguments: ['@Github\Client']
+
+    Github\Api\Search:
+        factory: 'Github\Client:api'
+        arguments: [search]
+        calls:
+            - ['setPerPage', ['%app.results.per_page%']]
+
+    Github\Api\Issue:
+        factory: 'Github\Client:api'
+        arguments: [issue]
+
+    Github\Api\Issue\Comments:
+        factory: 'Github\Client:api'
+        arguments: [issue]

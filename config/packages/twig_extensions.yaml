@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+
+    _instanceof:
+        Twig\Extension\ExtensionInterface:
+            tags: ['twig.extension']
+
+    Twig\Extensions\DateExtension: ~
+    Twig\Extensions\IntlExtension: ~

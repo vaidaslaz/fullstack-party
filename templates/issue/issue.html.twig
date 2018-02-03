@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Issue page{% endblock %}
+
+{% block stylesheets %}
+    <style type="text/css">
+        div#back {
+            margin: 15px 0;
+        }
+        span.state {
+            border: 1px solid;
+            padding: 5px;
+        }
+        span.state.open {
+            background-color: #4be446;
+        }
+        span.state.closed {
+            background-color: #e43d49;
+        }
+        table#comments {
+            width: 100%;
+            margin: 30px 0;
+        }
+        table#comments td.avatar {
+            width: 50px;
+        }
+        table#comments td.text {
+            border: 1px solid;
+        }
+        table#comments td.text div {
+            padding: 5px 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="back">
+        <button onclick="window.history.back()">Back to issues</button>
+    </div>
+    <div class="issue">
+        <div>
+            <span>{{ issue.title }}</span>
+            <span>#{{ issue.url|issueNumber }}</span>
+        </div>
+        <div>
+            <span class="state {{ issue.state }}">{{ issue.state|upper }}</span>
+            <a class="external" href="#">{{ issue.user.login }}</a>
+            <span>opened this issue {{ issue.created_at|time_diff }}</span>
+            <span>{{ issue.comments }} comment</span>
+        </div>
+    </div>
+
+    {% if comments|length > 0 %}
+    <table id="comments">
+        <tbody>
+            {% for comment in comments %}
+            <tr>
+                <td class="avatar">
+                    <img width="44" height="44" src="{{ comment.user.avatar_url }}" />
+                </td>
+                <td class="text">
+                    <div>
+                        <a class="external" href="#">{{ comment.user.login }}</a>
+                        <span>commented {{ comment.created_at|time_diff }}</span>
+                    </div>
+                    <hr />
+                    <div>{{ comment.body }}</div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+{% endblock %}

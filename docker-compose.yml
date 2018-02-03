@@ -1,0 +1,9 @@
+version: '3'
+services:
+    app:
+        build: .
+        ports:
+            - "8000:80"
+        environment:
+            - GITHUB_CLIENT_ID=38daa0c7427fc57673df
+            - GITHUB_CLIENT_SECRET=1e4ce1fb50ccd7f7c5ca69e4fab57058b6fe25a4

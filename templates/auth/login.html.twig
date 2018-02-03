@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login page{% endblock %}
+
+{% block stylesheets %}
+<style type="text/css">
+    div#login {
+        padding-top: 30%;
+    }
+    table td {
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <div id="login">
+        {% for owner in login_to %}
+            <a href="{{ hwi_oauth_login_url(owner) }}">Login with {{ owner }}</a> <br />
+        {% endfor %}
+    </div>
+{% endblock %}

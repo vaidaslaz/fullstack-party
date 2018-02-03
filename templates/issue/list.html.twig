@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block stylesheets %}
+    <style type="text/css">
+        div#issue_count {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        div#issue_count a {
+            padding: 10px 15px;
+            font-size: 150%;
+        }
+        div#pages {
+            text-align: center;
+            padding: 10px 0;
+        }
+        div#pages a {
+            margin: 0 5px;
+        }
+        div#pages a.page {
+            padding: 0 5px;
+            text-decoration: none;
+            font-size: 200%;
+            border: 1px solid;
+        }
+        div#pages a.page.active {
+            background-color: #d3d3d3;
+            color: #262626;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="issue_count">
+        <a href="{{ path('app_issue_list', {'state': 'open', 'page': page}) }}">{{ open_issues|localizednumber }} Open</a>
+        <a href="{{ path('app_issue_list', {'state': 'closed', 'page': page}) }}">{{ closed_issues|localizednumber }} Closed</a>
+    </div>
+
+    {% for issue in issues.items %}
+        <div class="issue" onclick="window.location = '{{ path('app_issue_issue_path', {'path': issue.url|issuePath }) }}'">
+            <div>
+                <a href="{{ path('app_issue_issue_path', {'path': issue.url|issuePath }) }}">{{ issue.title }}</a>
+                {%- for label in issue.labels %}
+                    <span style="background-color: {{ '#' ~ label.color }}">{{ label.name }}</span>
+                {% endfor %}
+                <span>Comments: {{ issue.comments }}</span>
+            </div>
+            <div>
+                <span>#{{ issue.url|issueNumber }}</span>
+                <span>opened {{ issue.created_at|time_diff }} by </span>
+                <a class="external" href="#">{{ issue.user.login }}</a>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if issues.total_count|default(0) / issues_per_page > 1 %}
+        <div id="pages">
+            <a href="{{ page > 1 ? path('app_issue_list', {'state': state, 'page': page - 1}) : '#' }}">Previous</a>
+            {% set last_page = (issues.total_count / issues_per_page)|round(0, 'ceil') %}
+            {% for index in 1..last_page %}
+                <a class="page {%- if index == page %} active{% endif %}" href="{{ path('app_issue_list', {'state': state, 'page': index}) }}">
+                    {{- index -}}
+                </a>
+            {% endfor %}
+            <a href="{{ page < last_page ? path('app_issue_list', {'state': state, 'page': page + 1}) : '#' }}">Next</a>
+        </div>
+    {% endif %}
+{% endblock %}
